@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import bg from "/images/bg.png";
 import SearchBar from '../components/searchBar/SearchBar';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 // onkeydown
 const Home = () => {
+
+    const { currentUser } = useContext(AuthContext)
+    
+ 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (!currentUser) {
+        navigate("/login");
+      }
+    }, [currentUser, navigate]);
+
   return (
     <div className='flex h-full w-full justify-center px-5'>
  
