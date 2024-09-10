@@ -5,19 +5,21 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+
   const { updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
-  const [IsLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handelSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("")
     const formData = new FormData(e.target);
 
     const username = formData.get("username");
     const password = formData.get("password");
-    // console.log("dfasfsdjf========>>>>");
+ 
     try {
       const res = await axios.post(
         "http://localhost:8000/server/auth/login",
@@ -27,16 +29,13 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      // console.log("call completed ========>>>>");
-
-      // localStorage.setItem("user", JSON.stringify(res.data));
-
+     
       updateUser(res.data)
-      // console.log(res);
+      console.log(res);
       navigate("/");
     } catch (error) {
       // console.log(error)
-      setError(error.res.data.message);
+      setError(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -67,13 +66,13 @@ const Login = () => {
             className="text-center border p-2 outLine-none"
           />
           <button
-            disabled={IsLoading}
+            disabled={isLoading}
             type="submit"
             className="p-full bg-gray-400 p-2"
           >
             Login
           </button>
-          {error && <span>{error}</span>}
+          {error && <span>error</span>}
 
           <Link className="underline" to="/register">
             {" "}

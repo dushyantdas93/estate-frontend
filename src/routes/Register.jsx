@@ -28,7 +28,7 @@ export const Register = () => {
             
         } catch (error) {
             // console.log(error)
-            setError(error.res.data.message)
+            setError(error.response.data.message)
         }
 
         // console.log(username,email,password)
@@ -43,7 +43,7 @@ export const Register = () => {
           <input type="email" name="email" placeholder="Email" className='text-center border p-2 outLine-none' />
           <input type="password" name="password" placeholder="password" className='text-center border p-2 outLine-none' />
           <button type="submit" className='p-full bg-gray-400 p-2'>submit</button>
-          {error && <span>{error}</span>}
+          {error && <span>error</span>}
                   
                   <Link className='underline' to="/login"> do you have an account ?</Link>
         </form>

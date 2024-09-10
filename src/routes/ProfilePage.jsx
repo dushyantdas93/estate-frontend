@@ -14,7 +14,8 @@ const ProfilePage = () => {
  
   const handleLogout = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/server/auth/logout")
+      const res = await axios.post("http://localhost:8000/server/auth/logout", {}, { withCredentials: true })
+      console.log(res)
       // localStorage.removeItem("user")
       updateUser(null)
       navigate("/")
@@ -34,9 +35,9 @@ const ProfilePage = () => {
           </div>
           <div className="flex flex-col justify-center gap-3" id="info">
             <span className="flex items-center gap-5">
-              Avatar :{" "}
+           
               <img
-                src={currentUser.user.avatar || home}
+                src={ home}
                 className="h-10 w-10 rounded-full"
               />
             </span>
