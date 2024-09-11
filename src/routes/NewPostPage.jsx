@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import UploadWidget from "../components/UploadWidget";
-import ReactQuill from "react-quill";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const NewPostPage = () => {
   const [value, setValue] = useState("");
-  const [image, setImage] = useState();
+  const [images, setImages] = useState([]);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,23 +17,50 @@ const handleSubmit = async (e) => {
 
     const inputs = Object.fromEntries(formData);
 
-  console.log(inputs)
+  // console.log(inputs)
+  const postData = {
+    title: inputs.title,
+    price: parseInt(inputs.price),
+    address: inputs.address,
+    city: inputs.city,
+    bedroom: parseInt(inputs.bedroom),
+    bathroom: parseInt(inputs.bathroom),
+    type: inputs.type,
+    property: inputs.property,
+    latitude: inputs.latitude,
+    longitude: inputs.longitude,
+    images: images,
+  };
+
+  const postDetail = {
+    desc: value,
+    utilities: inputs.utilities,
+    pet: inputs.pet,
+    income: inputs.income,
+    size: parseInt(inputs.size),
+    school: parseInt(inputs.school),
+    bus: parseInt(inputs.bus),
+    restaurant: parseInt(inputs.restaurant),
+  };
   
   try {
-    const post = await prisma.post("http://localhost:8000/server/post", {
-      postData: {
-        
-      }
-    })
-    
-  } catch (error) {
-    setError(error)
-    
-  }
-      
-  }
-  
+    const response = await axios.post("http://localhost:8000/server/post", {
+      postData,
+      postDetail,
+    });
 
+    // Ensure the response was successful
+    if (response.status === 200) {
+      console.log("Post created successfully");
+      navigate("/" + response.data.id);  // Make sure `response.data.id` exists
+    } else {
+      throw new Error("Failed to create post");
+    }
+  } catch (error) {
+    console.error("Error creating post:", error);
+    setError(error.message);
+  }
+};
   return (
     <div className=" flex" id="newPostPage">
       <div className="px-5 w-3/5" id="formContainer">
@@ -222,18 +253,18 @@ const handleSubmit = async (e) => {
           </form>
         </div>
       </div>
-      <div className="pl-5 w-2/5 bg-red-500 flex items-center justify-center" id="sideContainer">
-        {/* {images.map((image, index) => (
-          <img src={image} key={index} alt="" />
-        ))} */}
+      <div className="pl-5 w-2/5 bg-red-500 flex items-center justify-center flex-col gap-4" id="sideContainer">
+        {images.map((image, index) => (
+          <img src={image} key={index} className="h-36 w-42 " />
+        ))}
         <UploadWidget
           uwConfig={{
             multiple: true,
-            cloudName: "",
-            uploadPreset: "estate",
+            cloudName:"dywltditz",
+            uploadPreset:"ESTATE",
             folder: "post",
           }}
-          //   setState={setImages}
+            setState={setImages}
         />
       </div>
     </div>
