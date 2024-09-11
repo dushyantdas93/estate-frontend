@@ -1,28 +1,28 @@
-import React, { useContext, useEffect } from 'react'
-import home from "/images/home1.jpeg"
-import List from "../components/List.jsx"
-import Chat from '../components/Chat.jsx'
-import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext.jsx'
+import React, { useContext, useEffect } from "react";
+import home from "/images/home1.jpeg";
+import List from "../components/List.jsx";
+import Chat from "../components/Chat.jsx";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const ProfilePage = () => {
-
   const { currentUser, updateUser } = useContext(AuthContext);
-  const navigate = useNavigate()
-  
- 
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/server/auth/logout", {}, { withCredentials: true })
-      console.log(res)
+      const res = await axios.post(
+        "http://localhost:8000/server/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+      console.log(res);
       // localStorage.removeItem("user")
-      updateUser(null)
-      navigate("/")
-    } catch (error) {
-      
-    }
-  }
+      updateUser(null);
+      navigate("/");
+    } catch (error) {}
+  };
   return (
     <div id="profilepage" className=" px-5 flex h-full">
       <div className="w-[60%] px-5 overflow-auto h-full " id="details">
@@ -35,11 +35,7 @@ const ProfilePage = () => {
           </div>
           <div className="flex flex-col justify-center gap-3" id="info">
             <span className="flex items-center gap-5">
-           
-              <img
-                src={ home}
-                className="h-10 w-10 rounded-full"
-              />
+              <img src={home} className="h-10 w-10 rounded-full" />
             </span>
             <span className="flex items-center gap-5">
               Username : <b>{currentUser.user.username}</b>
@@ -56,9 +52,11 @@ const ProfilePage = () => {
           </div>
           <div className=" flex items-center justify-between" id="title">
             <h1 className="text-2xl font-semibold">My List</h1>
-            <button className="text-lg bg-[#fece51] font-semibold p-2 rounded-sm">
-              Create New Profile
-            </button>
+            <Link to="/add">
+              <button className="text-lg bg-[#fece51] font-semibold p-2 rounded-sm">
+                Create New Profile
+              </button>
+            </Link>
           </div>
           <List />
           <div className=" flex items-center justify-between" id="title">
@@ -75,6 +73,6 @@ const ProfilePage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ProfilePage
+export default ProfilePage;

@@ -40,13 +40,9 @@ const Navbar = () => {
 
       <div className="flex w-[40%] gap-5 font-semibold h-full justify-end pr-6  items-center lg:bg-[#fcf5f3]">
         <div className="hidden lg:flex">
-
           {currentUser ? (
             <div className="flex items-center font-bold gap-5">
-              <img
-                src={ logo}
-                className="w-10 h-10 object-fill rounded-full"
-              />
+              <img src={logo} className="w-10 h-10 object-fill rounded-full" />
               <span>{currentUser.user.username}</span>
               {/* <span>dushyant</span> */}
               <Link
